@@ -1,0 +1,28 @@
+{
+  "name": "@emmsdan/termii-js",
+  "version": "1.0.0",
+  "description": "a javascript package for some of termii sms platform -  - https://www.termii.com",
+  "main": "index.ts",
+  "author": "EmmsDan<https://emmsdan.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/emmsdan/termii-js",
+  "peerDependencies": {
+    "axios": "^0.21.1"
+  },
+  "dependencies": {
+    "axios": "^1.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emmsdan/termii-js.git"
+  },
+  "keywords": [
+    "Termii",
+    "API",
+    "SDK",
+    "node.js"
+  ],
+  "bugs": {
+    "url": "https://github.com/emmsdan/termii-js/issues"
+  }
+}
