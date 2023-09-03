@@ -7,11 +7,11 @@ export class TermiiJs {
         this.key = api_key;
     }
 
-    private base(url: string): string {
+    private base({url}:{url: string}): string {
         return `https://api.ng.termii.com/api/${url}`;
     }
 
-    private checkStatus(status: number): { success: boolean, message: string } {
+    private checkStatus({status}: { status: number }): { success: boolean, message: string } {
         switch (status) {
             case 200:
                 return {
@@ -91,7 +91,7 @@ export class TermiiJs {
         // Will be added later
     }
 
-    public async status(phone_number: number, country_code: string) {
+    public async status({phone_number, country_code}: { phone_number: number, country_code: string }) {
         try {
             const response = await axios.get(this.base(`insight/number/query?api_key=${this.key}&phone_number=${phone_number}&country_code=${country_code}`));
             const status = response.status;
@@ -106,7 +106,7 @@ export class TermiiJs {
         }
     }
 
-    public async search(phone_number: number) {
+    public async search({phone_number}:{phone_number: number}) {
         try {
             const response = await axios.get(this.base(`check/dnd?api_key=${this.key}&phone_number=${phone_number}`));
             const status = response.status;
@@ -138,7 +138,7 @@ export class TermiiJs {
         // Will be added later
     }
 
-    public async submitSenderId(sender_id: string, use_case: string, company: string) {
+    public async submitSenderId({sender_id, use_case, company}:{sender_id: string, use_case: string, company: string}) {
         try {
             const response = await axios.post(this.base('sender-id/request'), {
                 api_key: this.key,
@@ -156,8 +156,19 @@ export class TermiiJs {
         }
     }
 
-    public async sendMessage(to: number, from: string, sms: string, channel: string = 'generic', media: boolean = false, media_url: string | null = null, media_caption: string | null = null) {
+    public async sendMessage(props: {
+        to: number
+        from: string
+        sms: string
+        channel: string;
+        media?: boolean
+        media_url: string | null;
+        media_caption: string | null
+    }) {
         const type = 'plain';
+        let {
+            to, from, sms, channel = 'generic', media = false, media_url = null, media_caption = null
+        } = props
 
         if (media == true && channel == 'whatsapp') {
             channel = 'whatsapp';
@@ -177,8 +188,6 @@ export class TermiiJs {
             try {
                 const response = await axios.post(this.base('sms/send'), data);
                 const status = response.status;
-                // There is a fix here
-                // TODO: Fix
                 if (JSON.parse(response.data).success || status === 400) {
                     return response.data;
                 }
@@ -211,18 +220,11 @@ export class TermiiJs {
         }
     }
 
-    public async sendOTP(to: number, from: string, message_type: string, pin_attempts: number, pin_time_to_live: number, pin_length: number, pin_placeholder: string, message_text: string, channel: string = 'generic') {
+    public async sendOTP(props: {to: number, from: string, message_type: string, pin_attempts: number, pin_time_to_live: number, pin_length: number, pin_placeholder: string, message_text: string, channel: string}) {
         const data = {
+            ...props,
+            channel: props.channel ||  'generic',
             api_key: this.key,
-            to: to,
-            from: from,
-            message_type: message_type,
-            channel: channel,
-            pin_attempts: pin_attempts,
-            pin_time_to_live: pin_time_to_live,
-            pin_length: pin_length,
-            pin_placeholder: pin_placeholder,
-            message_text: message_text,
         };
 
         try {
@@ -237,13 +239,12 @@ export class TermiiJs {
         }
     }
 
-    public async sendVoiceOTP(to: number, pin_attempts: number, pin_time_to_live: number, pin_length: number) {
+    public async sendVoiceOTP(props: {
+        to: number, pin_attempts: number, pin_time_to_live: number, pin_length: number
+    }) {
         const data = {
+            ...props,
             api_key: this.key,
-            phone_number: to,
-            pin_attempts: pin_attempts,
-            pin_time_to_live: pin_time_to_live,
-            pin_length: pin_length,
         };
 
         try {
@@ -258,7 +259,7 @@ export class TermiiJs {
         }
     }
 
-    public async sendVoiceCall(to: number, code: number) {
+    public async sendVoiceCall({to, code}:{to: number, code: number}) {
         const data = {
             api_key: this.key,
             phone_number: to,
@@ -277,7 +278,7 @@ export class TermiiJs {
         }
     }
 
-    public async verifyOTP(pinId: string, pin: string) {
+    public async verifyOTP({pinId, pin}:{pinId: string, pin: string}) {
         const data = {
             api_key: this.key,
             pin_id: pinId,
@@ -296,14 +297,16 @@ export class TermiiJs {
         }
     }
 
-    public async sendInAppOTP(to: number, pin_attempts: number, pin_time_to_live: number, pin_length: number, pin_type: string) {
+    public async sendInAppOTP(props: {
+                                  to: number,
+                                  pin_attempts: number,
+                                  pin_time_to_live: number,
+                                  pin_length: number,
+                                  pin_type: string
+                              }) {
         const data = {
+            ...props,
             api_key: this.key,
-            phone_number: to,
-            pin_type: pin_type,
-            pin_attempts: pin_attempts,
-            pin_time_to_live: pin_time_to_live,
-            pin_length: pin_length,
         };
 
         try {
