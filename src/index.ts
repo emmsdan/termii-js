@@ -7,7 +7,7 @@ export class TermiiJs {
         this.key = api_key;
     }
 
-    private base({url}:{url: string}): string {
+    private base(url: string): string {
         return `https://api.ng.termii.com/api/${url}`;
     }
 
@@ -68,7 +68,7 @@ export class TermiiJs {
             if (JSON.parse(response.data).success) {
                 return response.data;
             }
-            return this.checkStatus(status);
+            return this.checkStatus({status});
         } catch (error) {
             return error
         }
@@ -81,7 +81,7 @@ export class TermiiJs {
             if (JSON.parse(response.data).success) {
                 return response.data;
             }
-            return this.checkStatus(status);
+            return this.checkStatus({status});
         } catch (error) {
             return error
         }
@@ -100,7 +100,7 @@ export class TermiiJs {
             if (JSON.parse(response.data).success || status === 400) {
                 return response.data;
             }
-            return this.checkStatus(status);
+            return this.checkStatus({status});
         } catch (error) {
             return error
         }
@@ -115,7 +115,7 @@ export class TermiiJs {
             if (JSON.parse(response.data).success || status === 404) {
                 return response.data;
             }
-            return this.checkStatus(status);
+            return this.checkStatus({status});
         } catch (error) {
             return error
         }
@@ -128,7 +128,7 @@ export class TermiiJs {
             if (JSON.parse(response.data).success) {
                 return response.data;
             }
-            return this.checkStatus(status);
+            return this.checkStatus({status});
         } catch (error) {
             return error
         }
@@ -150,7 +150,7 @@ export class TermiiJs {
             if (JSON.parse(response.data).success || status === 404) {
                 return response.data;
             }
-            return this.checkStatus(status);
+            return this.checkStatus({status});
         } catch (error) {
             return error
         }
@@ -191,7 +191,7 @@ export class TermiiJs {
                 if (JSON.parse(response.data).success || status === 400) {
                     return response.data;
                 }
-                return this.checkStatus(status);
+                return this.checkStatus({status});
             } catch (error) {
                 return error
             }
@@ -214,7 +214,7 @@ export class TermiiJs {
             if (JSON.parse(response.data).success || status === 400) {
                 return response.data;
             }
-            return this.checkStatus(status);
+            return this.checkStatus({status});
         } catch (error) {
             return error
         }
@@ -233,7 +233,7 @@ export class TermiiJs {
             if (JSON.parse(response.data).success || status === 400) {
                 return response.data;
             }
-            return this.checkStatus(status);
+            return this.checkStatus({status});
         } catch (error) {
             return error
         }
@@ -253,7 +253,7 @@ export class TermiiJs {
             if (JSON.parse(response.data).success || status === 400) {
                 return response.data;
             }
-            return this.checkStatus(status);
+            return this.checkStatus({status});
         } catch (error) {
             return error
         }
@@ -272,7 +272,7 @@ export class TermiiJs {
             if (JSON.parse(response.data).success || status === 400) {
                 return response.data;
             }
-            return this.checkStatus(status);
+            return this.checkStatus({status});
         } catch (error) {
             return error
         }
@@ -291,7 +291,7 @@ export class TermiiJs {
             if (JSON.parse(response.data).success || status === 400) {
                 return response.data;
             }
-            return this.checkStatus(status);
+            return this.checkStatus({status});
         } catch (error) {
             return error
         }
@@ -315,7 +315,7 @@ export class TermiiJs {
             if (JSON.parse(response.data).success || status === 400) {
                 return response.data;
             }
-            return this.checkStatus(status);
+            return this.checkStatus({status});
         } catch (error) {
             return error
         }
