@@ -70,7 +70,7 @@ export class TermiiJs {
             }
             return this.checkStatus({status});
         } catch (error) {
-            return error
+            throw error
         }
     }
 
@@ -83,7 +83,7 @@ export class TermiiJs {
             }
             return this.checkStatus({status});
         } catch (error) {
-            return error
+            throw error
         }
     }
 
@@ -102,7 +102,7 @@ export class TermiiJs {
             }
             return this.checkStatus({status});
         } catch (error) {
-            return error
+            throw error
         }
     }
 
@@ -117,7 +117,7 @@ export class TermiiJs {
             }
             return this.checkStatus({status});
         } catch (error) {
-            return error
+            throw error
         }
     }
 
@@ -130,7 +130,7 @@ export class TermiiJs {
             }
             return this.checkStatus({status});
         } catch (error) {
-            return error
+            throw error
         }
     }
 
@@ -152,7 +152,7 @@ export class TermiiJs {
             }
             return this.checkStatus({status});
         } catch (error) {
-            return error
+            throw error
         }
     }
 
@@ -193,7 +193,7 @@ export class TermiiJs {
                 }
                 return this.checkStatus({status});
             } catch (error) {
-                return error
+                throw error
             }
         }
 
@@ -216,7 +216,7 @@ export class TermiiJs {
             }
             return this.checkStatus({status});
         } catch (error) {
-            return error
+            throw error
         }
     }
 
@@ -235,7 +235,7 @@ export class TermiiJs {
             }
             return this.checkStatus({status});
         } catch (error) {
-            return error
+            throw error
         }
     }
 
@@ -255,7 +255,7 @@ export class TermiiJs {
             }
             return this.checkStatus({status});
         } catch (error) {
-            return error
+            throw error
         }
     }
 
@@ -274,7 +274,7 @@ export class TermiiJs {
             }
             return this.checkStatus({status});
         } catch (error) {
-            return error
+            throw error
         }
     }
 
@@ -293,7 +293,7 @@ export class TermiiJs {
             }
             return this.checkStatus({status});
         } catch (error) {
-            return error
+            throw error
         }
     }
 
@@ -317,7 +317,7 @@ export class TermiiJs {
             }
             return this.checkStatus({status});
         } catch (error) {
-            return error
+            throw error
         }
     }
 }
