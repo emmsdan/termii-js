@@ -1,6 +1,6 @@
 {
   "name": "@emmsdan/termii-js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "a javascript package for some of termii sms platform -  - https://www.termii.com",
   "main": "src/index.js",
   "author": "EmmsDan<https://emmsdan.com>",
