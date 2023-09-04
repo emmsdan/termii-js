@@ -71,23 +71,15 @@ export class TermiiJs {
     }
 
     public async balance(){
-        try {
-            const response = await axios.get(this.base(`get-balance?api_key=${this.key}`));
+        const response = await axios.get(this.base(`get-balance?api_key=${this.key}`));
 
-            return this.checkStatus(response.data);
-        } catch (error) {
-            throw error
-        }
+        return this.checkStatus(response.data);
     }
 
     public async history() {
-        try {
-            const response = await axios.get(this.base(`sms/inbox?api_key=${this.key}`));
+        const response = await axios.get(this.base(`sms/inbox?api_key=${this.key}`));
 
-            return this.checkStatus(response.data);
-        } catch (error) {
-            throw error
-        }
+        return this.checkStatus(response.data);
     }
 
     public historyStatus() {
@@ -95,30 +87,18 @@ export class TermiiJs {
     }
 
     public async status({phone_number, country_code}: { phone_number: number, country_code: string }) {
-        try {
-            const response = await axios.get(this.base(`insight/number/query?api_key=${this.key}&phone_number=${phone_number}&country_code=${country_code}`));
-            return this.checkStatus(response);
-        } catch (error) {
-            throw error
-        }
+        const response = await axios.get(this.base(`insight/number/query?api_key=${this.key}&phone_number=${phone_number}&country_code=${country_code}`));
+        return this.checkStatus(response);
     }
 
     public async search({phone_number}:{phone_number: number}) {
-        try {
-            const response = await axios.get(this.base(`check/dnd?api_key=${this.key}&phone_number=${phone_number}`));
-            return this.checkStatus(response);
-        } catch (error) {
-            throw error
-        }
+        const response = await axios.get(this.base(`check/dnd?api_key=${this.key}&phone_number=${phone_number}`));
+        return this.checkStatus(response);
     }
 
     public async allSenderId() {
-        try {
-            const response = await axios.get(this.base(`sender-id?api_key=${this.key}`));
-            return this.checkStatus(response.data);
-        } catch (error) {
-            throw error
-        }
+        const response = await axios.get(this.base(`sender-id?api_key=${this.key}`));
+        return this.checkStatus(response.data);
     }
 
     public senderIdStatus() {
@@ -126,17 +106,13 @@ export class TermiiJs {
     }
 
     public async submitSenderId({sender_id, use_case, company}:{sender_id: string, use_case: string, company: string}) {
-        try {
-            const response = await axios.post(this.base('sender-id/request'), {
-                api_key: this.key,
-                sender_id: sender_id,
-                usecase: use_case,
-                company: company,
-            });
-            return this.checkStatus(response);
-        } catch (error) {
-            throw error
-        }
+        const response = await axios.post(this.base('sender-id/request'), {
+            api_key: this.key,
+            sender_id: sender_id,
+            usecase: use_case,
+            company: company,
+        });
+        return this.checkStatus(response);
     }
 
     public async sendMessage(props: {
@@ -185,12 +161,8 @@ export class TermiiJs {
             channel: channel,
         };
 
-        try {
-            const response = await axios.post(this.base('sms/send'), data);
-            return this.checkStatus(response);
-        } catch (error) {
-            throw error
-        }
+        const response = await axios.post(this.base('sms/send'), data);
+        return this.checkStatus(response);
     }
 
     public async sendOTP(props: {to: number, from: string, message_type: string, pin_attempts: number, pin_time_to_live: number, pin_length: number, pin_placeholder: string, message_text: string, channel: string}) {
@@ -200,28 +172,21 @@ export class TermiiJs {
             api_key: this.key,
         };
 
-        try {
-            const response = await axios.post(this.base('sms/otp/send'), data);
-            return this.checkStatus(response);
-        } catch (error) {
-            throw error
-        }
+        const response = await axios.post(this.base('sms/otp/send'), data);
+        return this.checkStatus(response);
     }
 
     public async sendVoiceOTP(props: {
-        to: number, pin_attempts: number, pin_time_to_live: number, pin_length: number
+        to: number, pin_attempts: number, pin_time_to_live: number, pin_length: number,         phone_number?: number,
+
     }) {
         const data = {
             ...props,
             api_key: this.key,
         };
 
-        try {
-            const response = await axios.post(this.base('sms/otp/send/voice'), data);
-            return this.checkStatus(response);
-        } catch (error) {
-            throw error
-        }
+        const response = await axios.post(this.base('sms/otp/send/voice'), data);
+        return this.checkStatus(response);
     }
 
     public async sendVoiceCall({to, code}:{to: number, code: number}) {
@@ -231,12 +196,8 @@ export class TermiiJs {
             code: code,
         };
 
-        try {
-            const response = await axios.post(this.base('sms/otp/call'), data);
-            return this.checkStatus(response);
-        } catch (error) {
-            throw error
-        }
+        const response = await axios.post(this.base('sms/otp/call'), data);
+        return this.checkStatus(response);
     }
 
     public async verifyOTP({pinId, pin}:{pinId: string, pin: string}) {
@@ -246,32 +207,25 @@ export class TermiiJs {
             pin: pin,
         };
 
-        try {
-            const response = await axios.post(this.base('sms/otp/verify'), data);
-            return this.checkStatus(response);
-        } catch (error) {
-            throw error
-        }
+        const response = await axios.post(this.base('sms/otp/verify'), data);
+        return this.checkStatus(response);
     }
 
     public async sendInAppOTP(props: {
-                                  to: number,
-                                  pin_attempts: number,
-                                  pin_time_to_live: number,
-                                  pin_length: number,
-                                  pin_type: string
-                              }) {
+        to?: number,
+        phone_number?: number,
+        pin_attempts: number,
+        pin_time_to_live: number,
+        pin_length: number,
+        pin_type: string
+    }) {
         const data = {
             ...props,
             api_key: this.key,
         };
 
-        try {
-            const response = await axios.post(this.base('sms/otp/generate'), data);
-            return this.checkStatus(response);
-        } catch (error) {
-            throw error
-        }
+        const response = await axios.post(this.base('sms/otp/generate'), data);
+        return this.checkStatus(response);
     }
 }
 
