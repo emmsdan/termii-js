@@ -11,50 +11,59 @@ export class TermiiJs {
         return `https://api.ng.termii.com/api/${url}`;
     }
 
-    private checkStatus({status}: { status: number }): { success: boolean, message: string } {
+    private checkStatus({status, data}: { status: number, data?: any }): { success: boolean, message: string, data?: any } {
         switch (status) {
             case 200:
                 return {
+                    data,
                     success: true,
                     message: 'OK: Request was successful.',
                 };
             case 400:
                 return {
+                    data,
                     success: false,
                     message: 'Bad Request: Indicates that the server cannot or will not process the request due to something that is perceived to be a client error',
                 };
             case 401:
                 return {
+                    data,
                     success: false,
                     message: 'Unauthorized: No valid API key provided',
                 };
             case 403:
                 return {
+                    data,
                     success: false,
                     message: "Forbidden: The API key doesn't have permissions to perform the request.",
                 };
             case 404:
                 return {
+                    data,
                     success: false,
                     message: "Not Found: The requested resource doesn't exist.",
                 };
             case 405:
                 return {
+                    data,
                     success: false,
                     message: 'Method Not allowed: The selected HTTP method is not allowed',
                 };
             case 422:
                 return {
+                    data,
                     success: false,
                     message: 'Unprocessable entity: indicates that the server understands the content type of the request entity, and the syntax of the request entity is correct, but it was unable to process the contained instructions',
                 };
             case 429:
                 return {
+                    data,
                     success: false,
                     message: 'Too Many Requests: Indicates the user has sent too many requests in a given amount of time',
                 };
             default:
                 return {
+                    data,
                     success: false,
                     message: "Server Errors: Something went wrong on Termii's end OR status was not returned",
                 };
@@ -64,11 +73,8 @@ export class TermiiJs {
     public async balance(){
         try {
             const response = await axios.get(this.base(`get-balance?api_key=${this.key}`));
-            const status = response.status;
-            if (JSON.parse(response.data).success) {
-                return response.data;
-            }
-            return this.checkStatus({status});
+
+            return this.checkStatus(response.data);
         } catch (error) {
             throw error
         }
@@ -77,11 +83,8 @@ export class TermiiJs {
     public async history() {
         try {
             const response = await axios.get(this.base(`sms/inbox?api_key=${this.key}`));
-            const status = response.status;
-            if (JSON.parse(response.data).success) {
-                return response.data;
-            }
-            return this.checkStatus({status});
+
+            return this.checkStatus(response.data);
         } catch (error) {
             throw error
         }
@@ -94,13 +97,7 @@ export class TermiiJs {
     public async status({phone_number, country_code}: { phone_number: number, country_code: string }) {
         try {
             const response = await axios.get(this.base(`insight/number/query?api_key=${this.key}&phone_number=${phone_number}&country_code=${country_code}`));
-            const status = response.status;
-            // There is a fix here
-            // TODO: Fix
-            if (JSON.parse(response.data).success || status === 400) {
-                return response.data;
-            }
-            return this.checkStatus({status});
+            return this.checkStatus(response);
         } catch (error) {
             throw error
         }
@@ -109,13 +106,7 @@ export class TermiiJs {
     public async search({phone_number}:{phone_number: number}) {
         try {
             const response = await axios.get(this.base(`check/dnd?api_key=${this.key}&phone_number=${phone_number}`));
-            const status = response.status;
-            // There is a fix here
-            // TODO: Fix
-            if (JSON.parse(response.data).success || status === 404) {
-                return response.data;
-            }
-            return this.checkStatus({status});
+            return this.checkStatus(response);
         } catch (error) {
             throw error
         }
@@ -124,11 +115,7 @@ export class TermiiJs {
     public async allSenderId() {
         try {
             const response = await axios.get(this.base(`sender-id?api_key=${this.key}`));
-            const status = response.status;
-            if (JSON.parse(response.data).success) {
-                return response.data;
-            }
-            return this.checkStatus({status});
+            return this.checkStatus(response.data);
         } catch (error) {
             throw error
         }
@@ -146,11 +133,7 @@ export class TermiiJs {
                 usecase: use_case,
                 company: company,
             });
-            const status = response.status;
-            if (JSON.parse(response.data).success || status === 404) {
-                return response.data;
-            }
-            return this.checkStatus({status});
+            return this.checkStatus(response);
         } catch (error) {
             throw error
         }
@@ -187,11 +170,7 @@ export class TermiiJs {
 
             try {
                 const response = await axios.post(this.base('sms/send'), data);
-                const status = response.status;
-                if (JSON.parse(response.data).success || status === 400) {
-                    return response.data;
-                }
-                return this.checkStatus({status});
+                return this.checkStatus(response);
             } catch (error) {
                 throw error
             }
@@ -208,13 +187,7 @@ export class TermiiJs {
 
         try {
             const response = await axios.post(this.base('sms/send'), data);
-            const status = response.status;
-            // There is a fix here
-            // TODO: Fix
-            if (JSON.parse(response.data).success || status === 400) {
-                return response.data;
-            }
-            return this.checkStatus({status});
+            return this.checkStatus(response);
         } catch (error) {
             throw error
         }
@@ -229,11 +202,7 @@ export class TermiiJs {
 
         try {
             const response = await axios.post(this.base('sms/otp/send'), data);
-            const status = response.status;
-            if (JSON.parse(response.data).success || status === 400) {
-                return response.data;
-            }
-            return this.checkStatus({status});
+            return this.checkStatus(response);
         } catch (error) {
             throw error
         }
@@ -249,11 +218,7 @@ export class TermiiJs {
 
         try {
             const response = await axios.post(this.base('sms/otp/send/voice'), data);
-            const status = response.status;
-            if (JSON.parse(response.data).success || status === 400) {
-                return response.data;
-            }
-            return this.checkStatus({status});
+            return this.checkStatus(response);
         } catch (error) {
             throw error
         }
@@ -268,11 +233,7 @@ export class TermiiJs {
 
         try {
             const response = await axios.post(this.base('sms/otp/call'), data);
-            const status = response.status;
-            if (JSON.parse(response.data).success || status === 400) {
-                return response.data;
-            }
-            return this.checkStatus({status});
+            return this.checkStatus(response);
         } catch (error) {
             throw error
         }
@@ -287,11 +248,7 @@ export class TermiiJs {
 
         try {
             const response = await axios.post(this.base('sms/otp/verify'), data);
-            const status = response.status;
-            if (JSON.parse(response.data).success || status === 400) {
-                return response.data;
-            }
-            return this.checkStatus({status});
+            return this.checkStatus(response);
         } catch (error) {
             throw error
         }
@@ -311,11 +268,7 @@ export class TermiiJs {
 
         try {
             const response = await axios.post(this.base('sms/otp/generate'), data);
-            const status = response.status;
-            if (JSON.parse(response.data).success || status === 400) {
-                return response.data;
-            }
-            return this.checkStatus({status});
+            return this.checkStatus(response);
         } catch (error) {
             throw error
         }
