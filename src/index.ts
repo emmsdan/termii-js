@@ -1,14 +1,16 @@
-import axios from 'axios';
-
+import axiosInstance from 'axios';
+const axios = axiosInstance.create({
+    baseURL:'https://api.ng.termii.com/api/',
+})
 export class TermiiJs {
     private key: string;
 
     constructor(api_key: string) {
-        this.key = api_key;
+        this.key = 'api_key';
     }
 
     private base(url: string): string {
-        return `https://api.ng.termii.com/api/${url}`;
+        return `${url}`;
     }
 
     private checkStatus({status, data}: { status: number, data?: any }): { success: boolean, message: string, data?: any } {
@@ -71,15 +73,11 @@ export class TermiiJs {
     }
 
     public async balance(){
-        const response = await axios.get(this.base(`get-balance?api_key=${this.key}`));
-
-        return this.checkStatus(response.data);
+        return axios.get(this.base(`get-balance?api_key=${this.key}`));
     }
 
     public async history() {
-        const response = await axios.get(this.base(`sms/inbox?api_key=${this.key}`));
-
-        return this.checkStatus(response.data);
+        return axios.get(this.base(`sms/inbox?api_key=${this.key}`));
     }
 
     public historyStatus() {
@@ -87,18 +85,16 @@ export class TermiiJs {
     }
 
     public async status({phone_number, country_code}: { phone_number: number, country_code: string }) {
-        const response = await axios.get(this.base(`insight/number/query?api_key=${this.key}&phone_number=${phone_number}&country_code=${country_code}`));
-        return this.checkStatus(response);
+        return axios.get(this.base(`insight/number/query?api_key=${this.key}&phone_number=${phone_number}&country_code=${country_code}`));
     }
 
     public async search({phone_number}:{phone_number: number}) {
-        const response = await axios.get(this.base(`check/dnd?api_key=${this.key}&phone_number=${phone_number}`));
-        return this.checkStatus(response);
+        return axios.get(this.base(`check/dnd?api_key=${this.key}&phone_number=${phone_number}`));
+
     }
 
     public async allSenderId() {
-        const response = await axios.get(this.base(`sender-id?api_key=${this.key}`));
-        return this.checkStatus(response.data);
+        return axios.get(this.base(`sender-id?api_key=${this.key}`));
     }
 
     public senderIdStatus() {
@@ -106,13 +102,13 @@ export class TermiiJs {
     }
 
     public async submitSenderId({sender_id, use_case, company}:{sender_id: string, use_case: string, company: string}) {
-        const response = await axios.post(this.base('sender-id/request'), {
+        return axios.post(this.base('sender-id/request'), {
             api_key: this.key,
             sender_id: sender_id,
             usecase: use_case,
             company: company,
         });
-        return this.checkStatus(response);
+
     }
 
     public async sendMessage(props: {
@@ -144,12 +140,7 @@ export class TermiiJs {
                 }),
             };
 
-            try {
-                const response = await axios.post(this.base('sms/send'), data);
-                return this.checkStatus(response);
-            } catch (error) {
-                throw error
-            }
+            return await axios.post(this.base('sms/send'), data);
         }
 
         const data = {
@@ -161,8 +152,8 @@ export class TermiiJs {
             channel: channel,
         };
 
-        const response = await axios.post(this.base('sms/send'), data);
-        return this.checkStatus(response);
+        return axios.post(this.base('sms/send'), data);
+
     }
 
     public async sendOTP(props: {to: number, from: string, message_type: string, pin_attempts: number, pin_time_to_live: number, pin_length: number, pin_placeholder: string, message_text: string, channel: string}) {
@@ -172,8 +163,8 @@ export class TermiiJs {
             api_key: this.key,
         };
 
-        const response = await axios.post(this.base('sms/otp/send'), data);
-        return this.checkStatus(response);
+        return axios.post(this.base('sms/otp/send'), data);
+
     }
 
     public async sendVoiceOTP(props: {
@@ -185,8 +176,8 @@ export class TermiiJs {
             api_key: this.key,
         };
 
-        const response = await axios.post(this.base('sms/otp/send/voice'), data);
-        return this.checkStatus(response);
+        return axios.post(this.base('sms/otp/send/voice'), data);
+
     }
 
     public async sendVoiceCall({to, code}:{to: number, code: number}) {
@@ -196,8 +187,8 @@ export class TermiiJs {
             code: code,
         };
 
-        const response = await axios.post(this.base('sms/otp/call'), data);
-        return this.checkStatus(response);
+        return axios.post(this.base('sms/otp/call'), data);
+
     }
 
     public async verifyOTP({pinId, pin}:{pinId: string, pin: string}) {
@@ -206,9 +197,7 @@ export class TermiiJs {
             pin_id: pinId,
             pin: pin,
         };
-
-        const response = await axios.post(this.base('sms/otp/verify'), data);
-        return this.checkStatus(response);
+        return axios.post(this.base('sms/otp/verify'), data);
     }
 
     public async sendInAppOTP(props: {
@@ -224,8 +213,8 @@ export class TermiiJs {
             api_key: this.key,
         };
 
-        const response = await axios.post(this.base('sms/otp/generate'), data);
-        return this.checkStatus(response);
+        return axios.post(this.base('sms/otp/generate'), data);
+
     }
 }
 
